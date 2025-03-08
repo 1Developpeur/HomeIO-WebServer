@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/fonts/roboto_mono.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>HomeIO Web Panel</title>
+</head>
+<body>
+    <center>
+        <div class="Title">
+            <img class="logo" src="./assets/icons/logo.png" alt="">
+            <h2>Controleur Home IO</h2>
+        </div>
+        <div class="Container">
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Piscine</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLight('lumière_piscine', this)">Allumer</button>
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Entrée</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLight('lumière_entrée', this)">Allumer</button>
+            </div>
+
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Salon</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLights('A', this)">Allumer</button>
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">WC</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLights('B', this)">Allumer</button>
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Cuisine</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLights('D', this)">Allumer</button>
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Couloir</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleLights('G', this)">Allumer</button>
+            </div>
+        </div>
+        <button class="backButton" onclick="window.location = 'index.html'">
+            <img src="./assets/icons/en-arriere.png" alt="">
+            Retour
+        </button>
+    </center>
+    
+
+    <script>
+        let isOn = true;
+
+        function toggleLight(target, element) {
+            /*
+                Fonction qui permet de controler la lumiere
+                    target  : cible de l'action
+                    element : element html qui a declencher l'action
+            */
+
+            // définir l'action en fonction de l'état actuel
+            const action = isOn
+                ? "http://localhost:9797/stsw/allumer/"+target
+                : "http://localhost:9797/stsw/eteindre/"+target;
+
+            element.innerText = isOn ? 'Eteindre' : 'Allumer';
+            element.parentElement.childNodes[1].childNodes[0].src = isOn ? './assets/icons/light_icon_on.png' : './assets/icons/light_icon_off.png';
+            
+            // effectuer l'action
+            fetch(action, { method: 'GET' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            
+            // inverser l'état
+            isOn = !isOn;
+        }
+
+        function toggleLights(chambre, element) {
+            /*
+                Fonction qui permet de controler les lumieres
+                    chambre : chambre cible
+                    element : element html qui a declencher l'action
+            */
+
+            // définir l'action en fonction de l'état actuel
+            command = isOn ? "allumer" : "eteindre";
+            // liste des actions a effectuer
+            var actions = [];
+
+            // ajouter les actions a la liste
+            for (var i = 1; i < 6; i++) {
+                actions.push("http://localhost:9797/swl/"+command+"/"+i+"/"+chambre)
+            }
+
+            // effectuer les actions
+            for (let i = 0; i < actions.length; i++) {
+                fetch(actions[i], { method: 'GET' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // inverser l'état
+            element.innerText = isOn ? 'Eteindre' : 'Allumer';
+            element.parentElement.childNodes[1].childNodes[0].src = isOn ? './assets/icons/light_icon_on.png' : './assets/icons/light_icon_off.png';
+            isOn = !isOn;
+        }
+    </script>
+</body>
+</html>

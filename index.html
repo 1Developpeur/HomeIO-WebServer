@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/fonts/roboto_mono.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Controleur HomeIO</title>
+</head>
+<body>
+    <!--    Alignement au centre pour tout les elements    -->
+    <center>
+        <!--    Titre de la page    -->
+        <div class="Title">
+            <img class="logo" src="./assets/icons/logo.png" alt="">
+            <h2>Controleur Home IO</h2>
+        </div>
+
+        <!--    une div Conteneur qui va contenir les différents carte de navigation/configuration    -->
+        <div class="Container">
+            <!--    Chaque div correspond a une carte sur le site   -->
+            <div class="Card">
+                <!--    Titre, Logo de la carte    -->
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Lumières</h1>
+                <!--    Bouton d'action de la carte    -->
+                <button class="CardButton" onclick="window.location = 'lumieres.html'">Acceder</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/volets_icon.png" alt="">Volets</h1>
+                <button class="CardButton" onclick="window.location = 'volets.html'">Acceder</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/garage_icon.png" alt="">Garage</h1>
+                <button class="CardButton" onclick="window.location = 'garage.html'">Acceder</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/light_icon_off.png" alt="">Exemple 1</h1>
+                <button class="CardButton">Acceder</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle"><img class="CardIcon" src="./assets/icons/garage_icon.png" alt="">Exemple 2</h1>
+                <button class="CardButton">Acceder</button>    
+            </div>
+        </div>
+    </center>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/fonts/roboto_mono.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>HomeIO Web Panel</title>
+</head>
+<body>
+    <center>
+        <div class="Title">
+            <img class="logo" src="./assets/icons/logo.png" alt="">
+            <h2>Controleur Home IO</h2>
+        </div>
+
+        <div class="Container">
+            <div class="Card">
+                <h1 class="CardTitle">Porte garage</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleGarage(this, true)">Ouvrir</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle">Stopper la porte</h1>
+                <button class="CardButton" id="CardButton" onclick="toggleGarage(this, false)">Stopper</button>    
+            </div>
+        </div>
+        <button class="backButton" onclick="window.location = 'index.html'">
+            <img src="./assets/icons/en-arriere.png" alt="">
+            Retour
+        </button>
+    </center>
+    
+    <script>
+        let isOn = true;
+
+        function toggleGarage(element, inverse) {
+            /*
+                Fonction qui permet de controler la porte de garage
+                    element : element html qui a declencher l'action
+                    inverse : inverser l'action
+            */
+
+            if (inverse) {
+                // définir l'action en fonction de l'état actuel
+                const action = isOn
+                ? "http://localhost:9797/cgate/ouvrir/porte_garage"
+                : "http://localhost:9797/cgate/fermer/porte_garage";
+
+                element.innerText = isOn ? "Fermer" : "Ouvrir"
+                
+                // effectuer l'action
+                fetch(action, { method: 'GET' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                
+                // inverser l'état
+                isOn = !isOn;
+            } else {
+                const action = "http://localhost:9797/cgate/stopper/porte_garage";
+
+                fetch(action, { method: 'GET' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+            
+        }
+    </script>
+</body>
+</html>

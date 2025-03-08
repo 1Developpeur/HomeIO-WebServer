@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/fonts/roboto_mono.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>HomeIO Web Panel</title>
+</head>
+<body>
+    <center>
+        <div class="Title">
+            <img class="logo" src="./assets/icons/logo.png" alt="">
+            <h2>Controleur Home IO</h2>
+        </div>
+        <div class="Container">
+            <div class="Card">
+                <h1 class="CardTitle">Monter les volets</h1>
+                <select class="CardSelect" id="volet_chambre_monter">
+                    <option value="A">Chambre A</option>
+                    <option value="B">Chambre B</option>
+                    <option value="C">Chambre C</option>
+                    <option value="D">Chambre D</option>
+                    <option value="E">Chambre E</option>
+                    <option value="F">Chambre F</option>
+                    <option value="G">Chambre G</option>
+                    <option value="H">Chambre H</option>
+                    <option value="I">Chambre I</option>
+                    <option value="J">Chambre J</option>
+                    <option value="K">Chambre K</option>
+                    <option value="L">Chambre L</option>
+                    <option value="M">Chambre M</option>
+                </select>
+                <button class="CardButton" id="CardButton" onclick="toggleVolets('monter', document.getElementById('volet_chambre_monter').value)">Monter</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle">Descendre les volets</h1>
+                <select class="CardSelect" id="volet_chambre_descendre">
+                    <option value="A">Chambre A</option>
+                    <option value="B">Chambre B</option>
+                    <option value="C">Chambre C</option>
+                    <option value="D">Chambre D</option>
+                    <option value="E">Chambre E</option>
+                    <option value="F">Chambre F</option>
+                    <option value="G">Chambre G</option>
+                    <option value="H">Chambre H</option>
+                    <option value="I">Chambre I</option>
+                    <option value="J">Chambre J</option>
+                    <option value="K">Chambre K</option>
+                    <option value="L">Chambre L</option>
+                    <option value="M">Chambre M</option>
+                </select>
+                <button class="CardButton" id="CardButton" onclick="toggleVolets('descendre', document.getElementById('volet_chambre_descendre').value)">Descendre</button>    
+            </div>
+            <div class="Card">
+                <h1 class="CardTitle">Stopper les volets</h1>
+                <select class="CardSelect" id="volet_chambre_stopper">
+                    <option value="A">Chambre A</option>
+                    <option value="B">Chambre B</option>
+                    <option value="C">Chambre C</option>
+                    <option value="D">Chambre D</option>
+                    <option value="E">Chambre E</option>
+                    <option value="F">Chambre F</option>
+                    <option value="G">Chambre G</option>
+                    <option value="H">Chambre H</option>
+                    <option value="I">Chambre I</option>
+                    <option value="J">Chambre J</option>
+                    <option value="K">Chambre K</option>
+                    <option value="L">Chambre L</option>
+                    <option value="M">Chambre M</option>
+                </select>
+                <button class="CardButton" id="CardButton" onclick="toggleVolets('stopper', document.getElementById('volet_chambre_stopper').value)">Stopper</button>
+            </div>
+        </div>
+
+        <button class="backButton" onclick="window.location = 'index.html'">
+            <img src="./assets/icons/en-arriere.png" alt="">
+            Retour
+        </button>
+    </center>
+    
+
+    <script>
+        // liste des chambres
+        const chambres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
+
+        function toggleVolets(command, chambre) {
+            /*
+                fonction qui permet de monter, descendre ou stopper les volets
+                command : la commande à effectuer
+                chambre : la chambre à laquelle appliquer la commande
+            */
+
+            // liste des actions à effectuer
+            var actions = [];
+
+            // on execute la commande sur tout les volets de la chambre (de 1 à 5)
+            for (var i = 1; i < 6; i++) {
+                actions.push("http://localhost:9797/strs/"+command+"/"+i+"/"+chambre)
+            }
+            
+            // on execute les actions
+            for (let i = 0; i < actions.length; i++) {
+                // on effectue une requete GET pour chaque action
+                fetch(actions[i], { method: 'GET' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>
